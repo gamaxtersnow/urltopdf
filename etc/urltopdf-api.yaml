@@ -1,0 +1,13 @@
+Name: urltopdf-api
+Host: 0.0.0.0
+Port: 8888
+Timeout: 20000
+Auth:
+  AccessSecret: 
+  AccessExpire: 7200
+Oss:
+  OssAccessKeyId: 
+  OssAccessKeySecret: 
+  OssEndpoint: 
+  BucketName: 
+  IsCname: false

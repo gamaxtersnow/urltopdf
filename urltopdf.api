@@ -1,0 +1,48 @@
+syntax = "v1"
+
+type ErrorInfo {
+	ErrorCode int64  `json:"errno"` //错误码
+	ErrorMsg  string `json:"error"` //错误信息
+}
+
+type ErrorResponse {
+	ErrorInfo ErrorInfo `json:"error_info"`
+}
+
+type TokenErrorInfo {
+	ErrorCode int64  `json:"code"` //错误码
+	ErrorMsg  string `json:"msg"` //错误信息
+}
+
+type UrlToPdfRequest {
+	Url             string  `json:"url"` //老师id
+	Delay           int64   `json:"delay,optional,default=0"` //延迟时间
+	Scale           float64 `json:"scale,optional,default=1"` //老师手机号
+	ObjectKey       string  `json:"object_key,default=output"` //object key 不能以“/”开头
+	HeaderTokenName string  `json:"header_token_name,optional,default=Authorization"` //header token 名称
+	Token           string  `json:"jwt_token,optional"` //url验证token
+	IsSign          bool    `json:"is_sign,optional,default=false"` //是否需要签名
+	SignExpire      int64   `json:"sign_expire,optional,default=300"` //签名有效期,默认5分钟
+}
+
+type UrlToPdfResponse {
+	ErrorInfo ErrorInfo `json:"error_info"` //错误信息
+	Data      PdfInfo   `json:"data"` //老师服务列表数据
+}
+
+type PdfInfo {
+	FileUrl   string `json:"file_url"` //文件url
+	ObjecktId string `json:"object_id"` //对象id
+}
+
+@server (
+	jwt: Auth
+)
+service urltopdf-api {
+	@doc (
+		summary: "url转pdf"
+	)
+	@handler UrlToPdf
+	post /utils/urlToPdf (UrlToPdfRequest) returns (UrlToPdfResponse)
+}
+
